@@ -81,6 +81,15 @@
   			return sqlSession
   		}
   		
+  - CDATA, PCDATA
+  	- xml 파서 : xml문서를 읽어들여 해석하는 프로그램
+  	- PCDATA : xml문서에서 xml 파서에의해 처리될 부분 따로 지정하지 않으면 xml 문서 전체
+  	- CDATA : xml 파서가 처리할 필요가 없는 부분
+  	- mappew에서 CDATA 처리가 꼭 필요한 경우
+  		sal에< 문자가 포함된 경우 
+  		<![CDATA[]]>로 처리할 수있다
+  		$lt; 로 처리할 수 있다
+  		
 
 6. 요청과 응답 객체
 - 요청, 응답 객체는 header와 body로 구성된다
