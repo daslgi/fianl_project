@@ -1,0 +1,38 @@
+package com.example.demo.controller;
+
+import java.security.*;
+
+import javax.validation.constraints.*;
+
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
+import org.springframework.validation.annotation.*;
+import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.dto.*;
+import com.example.demo.dto.BoardDto.*;
+import com.example.demo.service.*;
+
+import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.*;
+import springfox.documentation.annotations.*;
+
+@Validated
+@RestController
+public class BoardController {
+	@Autowired
+	private BoardService service;
+	
+	@Operation(summary="1.글 읽기", description="게시판 글 읽기")
+	@ApiResponses({
+		@ApiResponse(code=200, response=Read.class, message="result : Read DTO"), 
+		@ApiResponse(code=409, response=String.class, message="오류 메시지") 
+	})
+	@ApiImplicitParam(name="bno", value="글번호", required=true, dataTypeClass=Integer.class)
+	@GetMapping(value="/board", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<BoardDto.Read> read(@RequestParam @NotNull(message="글번호는 필수입력입니다") Integer bno, @ApiIgnore Principal principal) {
+		String loginId = principal==null? null : principal.getName();
+		BoardDto.Read dto = service.read(bno, loginId);
+		return ResponseEntity.ok(dto);
+	}
+}
