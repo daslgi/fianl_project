@@ -1,6 +1,11 @@
 package com.example.demo;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +44,13 @@ public class BoardDaoTest {
 	// Test 4. findAll : 글이 3개 있다. 1~3까지 3개를 읽어오자
 //	@Test
 	public void findAllTest() {
-		assertEquals(3, boardDao.findAll(null, 1, 10).size()); 
+//		assertEquals(3, boardDao.findAll(null, 1, 10).size()); 
 //		assertNotNull(boardDao.findAll(null, 11, 14)); // 값이 나오면 널이아니다
+		Map<String, Object> map = new HashMap<>();
+		map.put("writer", null);
+		map.put("start", 1);
+		map.put("end", 10);
+		boardDao.findAll("spring", 11, 20);
 	}
 	// Test 5. update : (내용,제목), 조회수, 좋아요, 싫어요에 대해 값을 주면 update
 //	@Test 
@@ -57,6 +67,12 @@ public class BoardDaoTest {
 		System.out.println(boardDao.findById(1));
 		assertEquals(true, boardDao.findById(1).isEmpty());
 		assertEquals(true,boardDao.findById(2).isPresent());
+	}
+	// Test 6-1. 
+	@Test
+	public void findByIdTest2() {
+		System.out.println(boardDao.findById(1));
+		boardDao.findById2(2).get().getComments().forEach(c->System.out.println(c));
 	}
 	// Test 7. 1번글이 없다, 2번글의 글쓴이는 있다
 	//@Test

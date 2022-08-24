@@ -1,51 +1,90 @@
 package com.example.demo.controller;
 
-import java.security.Principal;
+import java.security.*;
 
-import javax.validation.Valid;
+import javax.validation.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
+import org.springframework.security.access.prepost.*;
+import org.springframework.stereotype.*;
+import org.springframework.validation.*;
+import org.springframework.validation.annotation.*;
+import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.dto.BoardDto;
-import com.example.demo.entity.Board;
-import com.example.demo.service.BoardService;
+import com.example.demo.dto.*;
+import com.example.demo.dto.BoardDto.*;
+import com.example.demo.entity.*;
+import com.example.demo.service.*;
 
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import io.swagger.v3.oas.annotations.Operation;
-import springfox.documentation.annotations.ApiIgnore;
-
-//스프링 검증 활성화(자바 표준 검증보다 기능이 더 많다)
 @Validated
-// rest만 처리하는 @Controller의 부분 집합
-@RestController
+@Controller
 public class BoardController {
 	@Autowired
 	private BoardService service;
 	
-//	@PreAuthorize("isAuthenticated()")
-	@PostMapping(value="/board/create", produces = MediaType.TEXT_PLAIN_VALUE)
-	@Operation(summary = "5.글 작성", description = "제목과 내용을 입력해 글을 작성")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "title", value = "제목", required = true, dataTypeClass = String.class ),
-		@ApiImplicitParam(name = "content", value = "내용", required = true, dataTypeClass = String.class )
-	})
-	@ApiResponses({
-		@ApiResponse(code=200, response = String.class, message = "글을 읽을 주소"),
-		@ApiResponse(code=409, response = String.class, message ="오류 메세지")
-	})
-	public ResponseEntity<String> write(@Valid BoardDto.Write dto, BindingResult bindingResult, @ApiIgnore Principal principal){
-//		Board board = service.write(dto, principal.getName());
-		Board board = service.write(dto, "spring");
-		return ResponseEntity.ok("/board.read?bno="+board.getBno());
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/board/write")
+	public void write() {
 	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping("/board/new")
+	public ResponseEntity<String> write(@Valid BoardDto.Write dto, BindingResult bindingResult, Principal principal) {
+		Board board = service.write(dto, "spring");
+		return ResponseEntity.ok("/board/read?bno=" + board.getBno());
+	}
+	
+	@GetMapping("/board/read")
+	public void read() {
+	}
+	
+//	@GetMapping("/board")
+//	public ResponseEntity<BoardDto.Read> read(Integer bno, Principal principal) {
+//		String loginId = principal==null? null : principal.getName();
+//		BoardDto.Read dto = service.read(bno, loginId);
+//		return ResponseEntity.ok(dto);
+//	}
+//	
+//	@PreAuthorize("isAuthenticated()")
+//	@DeleteMapping("/board")
+//	public ResponseEntity<String> delete(Integer bno, Principal principal) {
+//		Boolean result = service.delete(bno, principal.getName());
+//		if(result==false)
+//			return ResponseEntity.status(HttpStatus.CONFLICT).body("작업 실패");
+//		return ResponseEntity.ok("/board/list");
+//	}
+//	
+//	
+//	@PreAuthorize("isAuthenticated()")
+//	@PutMapping("/board")
+//	public ResponseEntity<String> update(@Valid BoardDto.Update dto,
+//			BindingResult bindingResult, Principal principal) {
+//		Boolean result = service.update(dto, principal.getName());
+//		if(result==false)
+//			return ResponseEntity.status(HttpStatus.CONFLICT).body("작업 실패");
+//		return ResponseEntity.ok("/board/read?bno="+dto.getBno());
+//	}
+//	
+//	@GetMapping("/board/list")
+//	public void list() {
+//	}
+//	
+//	@GetMapping("/board/all")
+//	public ResponseEntity<Page> list(@RequestParam(defaultValue="1")
+//		Integer pageno) {
+//		return ResponseEntity.ok(service.list(pageno));
+//	}
+//	
 }
+
+
+
+
+
+
+
+
+
+
+

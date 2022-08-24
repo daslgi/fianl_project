@@ -12,6 +12,7 @@
   
   <!-- writer를 입력한 경우 where절을 추가하는 동적 쿼리 -->
   <select id="findAll" resultType="com.example.demo.dto.BoardDto$ForList">
+  <![CDATA[
 	select * from  	
   	(
   		select rownum as rnum, b.* from 
@@ -20,9 +21,10 @@
 				<if test="writer!=null">writer=#{writer}</if> 
 			</where>
   			 order by bno desc) b
-  		where rownum &lt;=#{end}
+  		where rownum <=#{end}
   	)
-  	where rnum&gt;=#{start}
+  	where rnum>=#{start}
+  	 	]]>
   </select>
   
   <insert id="save">
@@ -51,9 +53,34 @@
   	select * from board where bno=#{bno} and rownum<=1
   	]]>
   </select>
+  <resultMap type="com.example.demo.dto.CommentDto$Read" id="commentMap">
+  		<result property="cno" column="cno"/>
+  		<result property="content" column="ccontent"/>
+  		<result property="writer" column="cwriter"/>
+  		<result property="writeTime" column="cwriteTime"/>
+  </resultMap>
+  
+  <resultMap type="com.example.demo.dto.BoardDto$Read" id="boardMap">
+  		<result property="bno" column="bno"/>
+  		<result property="title" column="title"/>
+  		<result property="content" column="content"/>
+  		<result property="writer" column="writer"/>
+  		<result property="writeTime" column="writeTime"/>
+  		<result property="readCnt" column="readCnt"/>
+  		<result property="commentCnt" column="commentCnt"/>
+  		<result property="goodCnt" column="goodCnt"/>
+  		<result property="badCnt" column="badCnt"/>
+  		<collection property="comments" resultMap="commentMap"></collection>
+  </resultMap>
+  
+  <select id="findById2" resultType="select ">
+  	select b.*, c.cno, c.content as ccontent, c.writer as cwrite, c.writeTime as cwriteTime from board b left outer join comments c on b.bno=c.bno where b.bno=#{bno};
+  </select>
   
   <select id="findWriterById" resultType="string">
-  	select writer from board where bno=#{bno} and rownum&lt;=1
+   <![CDATA[
+  	select writer from board where bno=#{bno} and rownum<=1
+  	]]>
   </select>
   
   <delete id="deleteById">

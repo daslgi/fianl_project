@@ -18,12 +18,15 @@ public interface BoardDao {
 	
 	// 페이징
 	public List<BoardDto.ForList> findAll(String writer, Integer start, Integer end);
+	// 패러미터가 여러개 일 떄 map 사용 (Map map );
 	
 	// 업데이트
 	public Integer update(Board board);
 	
 	// 읽기
 	public Optional<BoardDto.Read> findById(Integer bno);
+	
+	public Optional<BoardDto.Read> findById2(Integer bno);
 	
 	// 글 변경, 삭제 전에 글쓴이를 확인 -> 글쓴이가 없다면 글이 존재하지 않는다
 	public Optional<String> findWriterById(Integer bno);
