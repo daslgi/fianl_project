@@ -1,21 +1,22 @@
 package com.example.demo.service;
 
-import java.util.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
-
-import com.example.demo.dao.*;
-import com.example.demo.dto.*;
-import com.example.demo.dto.BoardDto.*;
-import com.example.demo.entity.*;
-import com.example.demo.exception.*;
+import com.example.demo.dao.BoardDao;
+import com.example.demo.dto.BoardDto;
+import com.example.demo.dto.BoardDto.Page;
+import com.example.demo.dto.BoardDto.Read;
+import com.example.demo.entity.Board;
+import com.example.demo.exception.BoardNotFoundException;
+import com.example.demo.exception.JobFailException;
 
 @Service
 public class BoardService {
 	@Autowired
 	private BoardDao boardDao;
-	@Value("${mproject.pagesize}")
+	@Value("10")
 	private Integer pagesize;
 	
 	public Board write(BoardDto.Write dto, String loginId) {
