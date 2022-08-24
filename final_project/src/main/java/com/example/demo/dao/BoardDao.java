@@ -17,7 +17,7 @@ public interface BoardDao {
 	public Integer count(String writer);
 	
 	// 페이징
-	public List<BoardDto.ForList> findAll(String writer, Integer start, Integer end);
+	public List<BoardDto.ForList> findAll(Map map);
 	// 패러미터가 여러개 일 떄 map 사용 (Map map );
 	
 	// 업데이트

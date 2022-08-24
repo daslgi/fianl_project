@@ -22,6 +22,7 @@ public class BoardDto {
 	}
 	
 	@Data
+	@AllArgsConstructor
 	public static class Page {
 		private Integer pageno;
 		private Integer pagesize;
@@ -69,6 +70,10 @@ public class BoardDto {
 			return Board.builder().title(title).content(content)
 					.bno(bno).build();
 		}
+	}
+	@Data
+	public static class Delete{
+		private Integer bno;
 	}
 }
 

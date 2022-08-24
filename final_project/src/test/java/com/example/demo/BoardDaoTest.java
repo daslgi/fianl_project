@@ -50,7 +50,7 @@ public class BoardDaoTest {
 		map.put("writer", null);
 		map.put("start", 1);
 		map.put("end", 10);
-		boardDao.findAll("spring", 11, 20);
+		boardDao.findAll(map);
 	}
 	// Test 5. update : (내용,제목), 조회수, 좋아요, 싫어요에 대해 값을 주면 update
 //	@Test 

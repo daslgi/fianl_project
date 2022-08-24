@@ -13,7 +13,6 @@ public class CommentDto {
 		private Integer cno;
 		private String content;
 		private String writer;
-		@JsonFormat(pattern="yyyy-MM-dd")
 		private LocalDateTime writeTime;
 	}
 }
